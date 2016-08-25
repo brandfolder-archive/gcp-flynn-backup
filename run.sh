@@ -19,7 +19,7 @@ start-backups(){
   flynn cluster backup > "/tmp/$filename"
 
   # Create bucket if it doesnt exist
-  gsutil mb gs://flynn-backups/ || true
+  gsutil mb gs://$GOOGLE_CLOUD_STORAGE_BUCKET/ || true
 
   # Copy backup to bucket
   echo "uploading backup to google cloud bucket: 'gs://$FLYNN_CLUSTER_DOMAIN/$GOOGLE_CLOUD_STORAGE_BUCKET'"
