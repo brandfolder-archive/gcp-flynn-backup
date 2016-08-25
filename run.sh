@@ -22,8 +22,8 @@ start-backups(){
   gsutil mb gs://flynn-backups/ || true
 
   # Copy backup to bucket
-  echo "uploading backup to google cloud bucket: '$GOOGLE_CLOUD_STORAGE_BUCKET'"
-  gsutil cp "/tmp/$filename" gs://$FLYNN_BACKUP_DOMAIN/$GOOGLE_CLOUD_STORAGE_BUCKET/
+  echo "uploading backup to google cloud bucket: 'gs://$FLYNN_CLUSTER_DOMAIN/$GOOGLE_CLOUD_STORAGE_BUCKET'"
+  gsutil cp "/tmp/$filename" "gs://$FLYNN_CLUSTER_DOMAIN/$GOOGLE_CLOUD_STORAGE_BUCKET/"
 
   # Sleep until next
   echo "sleeping for $BACKUP_FREQUENCY seconds until next backup..."
