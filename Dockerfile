@@ -21,7 +21,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy git
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy jq
 
 # Default env
-ENV BACKUP_FREQUENCY 86400
+ENV BACKUP_TIMES 00:00
 ENV GOOGLE_CLOUD_STORAGE_BUCKET flynn-backups
 ENV FLYNN_CERTIFICATE_PIN ""
 ENV FLYNN_CLUSTER_DOMAIN ""
