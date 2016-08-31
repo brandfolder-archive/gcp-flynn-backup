@@ -44,10 +44,11 @@ start-backups(){
   set -e
 
   wait-for-backup
+  backup_time=`current-backup`
 
   # Start next backup...
   echo '---------------------------------'
-  echo "Starting `current-backup` scheduled backup..."
+  echo "Starting $backup_time scheduled backup..."
 
   # Backup filename
   filename="`date -Iminutes | sed -E "s/\+[0-9:]{0,}//"`-flynn-backup.tar"
@@ -62,12 +63,15 @@ start-backups(){
   # Copy backup to bucket
   echo "Uploading backup to google cloud bucket: 'gs://$GOOGLE_CLOUD_STORAGE_BUCKET/$FLYNN_CLUSTER_DOMAIN'..."
   gsutil cp "$filename" "gs://$GOOGLE_CLOUD_STORAGE_BUCKET/$FLYNN_CLUSTER_DOMAIN/$filename"
-  ln -s "./$filename" latest
+  ln -sf "./$filename" latest
   gsutil cp latest "gs://$GOOGLE_CLOUD_STORAGE_BUCKET/$FLYNN_CLUSTER_DOMAIN/latest"
 
   # Clean up
   echo "Removing local file: '$filename'..."
   rm -f "$filename"
+
+  # Pause if current time is still the backup time
+  until [ "`current-time`" != "$backup_time" ] ; do sleep 1 ; done
 
   start-backups
 }
